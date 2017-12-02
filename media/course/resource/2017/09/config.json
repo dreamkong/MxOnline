@@ -1,0 +1,7 @@
+{
+   "server":"45.77.44.104",
+   "server_port":31234,
+    "password":"qinlong123456",
+    "timeout":60,
+    "method":"rc4-md5"
+}
