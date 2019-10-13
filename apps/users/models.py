@@ -1,32 +1,38 @@
-# _*_ encoding:utf-8 _*_
 from __future__ import unicode_literals
 from datetime import datetime
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+GENDER_CHOICES = (
+    ('male', '男'),
+    ('female', '女')
+)
 
-# Create your models here.
 
 class UserProfile(AbstractUser):
-    nick_name = models.CharField(max_length=50, verbose_name=u'昵称', default=u'')
-    birthday = models.CharField(max_length=20, verbose_name=u'生日', null=True, blank=True)
-    gender = models.CharField(max_length=6, choices=(('male', u'男'), ('female', u'女')), default=u'')
-    address = models.CharField(max_length=100, default=u'')
-    mobile = models.CharField(max_length=11, null=True, blank=True)
-    image = models.ImageField(upload_to='image/%Y/%m', default=u'image/default.png', max_length=100)
+    nick_name = models.CharField(max_length=50, verbose_name='昵称', default='')
+    birthday = models.CharField(max_length=20, verbose_name='生日', null=True, blank=True)
+    gender = models.CharField(max_length=6, verbose_name='性别', choices=GENDER_CHOICES, default='')
+    address = models.CharField(max_length=100, verbose_name='地址', default='')
+    mobile = models.CharField(max_length=11, unique=True, verbose_name='手机号码', null=True, blank=True)
+    image = models.ImageField(verbose_name='头像', upload_to='image/%Y/%m', default='image/default.png', max_length=100)
 
     class Meta:
         verbose_name = '用户信息'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        if self.nick_name:
+            return self.nick_name
+
     def __unicode__(self):
         return self.username
 
-    def unread_nums(self):
-        # 获取用户未读消息数量
-        from operation.models import UserMessage
-        return UserMessage.objects.filter(user=self.id, has_read=False).count()
+    # def unread_nums(self):
+    #     # 获取用户未读消息数量
+    #     from operation.models import UserMessage
+    #     return UserMessage.objects.filter(user=self.id, has_read=False).count()
 
 
 class EmailVerifyRecord(models.Model):
@@ -55,5 +61,6 @@ class Banner(models.Model):
     class Meta:
         verbose_name = u'轮播图'
         verbose_name_plural = verbose_name
+
     def __unicode__(self):
         return self.title

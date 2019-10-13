@@ -2,6 +2,6 @@
 from django.apps import AppConfig
 
 
-class OperationConfig(AppConfig):
-    name = 'operation'
+class OperationsConfig(AppConfig):
+    name = 'operations'
     verbose_name = u'用户操作'

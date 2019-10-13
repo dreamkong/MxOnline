@@ -48,7 +48,7 @@ The plugin also adds four public methods:
 				y: item.datapoint[ 1 ]
 			});
 		} else {
-			// Return normal crosshair operation
+			// Return normal crosshair operations
 			myFlot.unlockCrosshair();
 		}
 	});

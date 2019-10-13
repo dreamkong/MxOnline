@@ -2,6 +2,6 @@
 from django.apps import AppConfig
 
 
-class OrganizationConfig(AppConfig):
-    name = 'organization'
+class OrganizationsConfig(AppConfig):
+    name = 'organizations'
     verbose_name = u'机构管理'

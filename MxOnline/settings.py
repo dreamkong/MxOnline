@@ -40,20 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'courses',
-    'organization',
-    'operation',
-    'xadmin',
-    'crispy_forms',
-    'captcha',
-    'pure_pagination',
-    'DjangoUeditor'
+    'apps.users',
+    'apps.courses',
+    'apps.organizations',
+    'apps.operations',
+#     'xadmin',
+#     'crispy_forms',
+#     'captcha',
+#     'pure_pagination',
+#     'DjangoUeditor'
 ]
 
 AUTH_USER_MODEL = 'users.UserProfile'
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

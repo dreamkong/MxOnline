@@ -1,7 +1,7 @@
 
 VERSION = (0,6,0)
 
-from xadmin.sites import AdminSite, site
+from extra_apps.xadmin.sites import AdminSite, site
 
 class Settings(object):
     pass
@@ -26,7 +26,7 @@ def autodiscover():
         "passwordinput": "textinput textInput form-control",
     })
 
-    from xadmin.views import register_builtin_views
+    from extra_apps.xadmin.views import register_builtin_views
     register_builtin_views(site)
 
     # load xadmin settings from XADMIN_CONF module
@@ -45,7 +45,7 @@ def autodiscover():
             except Exception:
                 pass
 
-    from xadmin.plugins import register_builtin_plugins
+    from extra_apps.xadmin.plugins import register_builtin_plugins
     register_builtin_plugins(site)
 
     for app_config in apps.get_app_configs():
