@@ -4,20 +4,11 @@ from apps.users.models import BaseModel
 from apps.organizations.models import Teacher
 from apps.organizations.models import CourseOrg
 
-
 DEGREE = (
     ('cj', '初级'),
     ('zj', '中级'),
     ('gj', '高级')
 )
-
-
-# class BaseModel(models.Model):
-#     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
-#     update_time = models.DateTimeField(default=datetime.now, verbose_name='更新时间')
-#
-#     class Meta:
-#         abstract = True
 
 
 class Course(BaseModel):
