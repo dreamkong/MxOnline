@@ -3,5 +3,5 @@ from django.apps import AppConfig
 
 
 class OperationsConfig(AppConfig):
-    name = 'operations'
+    name = 'apps.operations'
     verbose_name = u'用户操作'

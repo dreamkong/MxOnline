@@ -40,15 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.users',
-    'apps.courses',
-    'apps.organizations',
-    'apps.operations',
-#     'xadmin',
-#     'crispy_forms',
-#     'captcha',
-#     'pure_pagination',
-#     'DjangoUeditor'
+    'apps.users.apps.UsersConfig',
+    'apps.courses.apps.CoursesConfig',
+    'apps.organizations.apps.OrganizationsConfig',
+    'apps.operations.apps.OperationsConfig',
+    #     'xadmin',
+    #     'crispy_forms',
+    #     'captcha',
+    #     'pure_pagination',
+    #     'DjangoUeditor'
 ]
 
 AUTH_USER_MODEL = 'users.UserProfile'
@@ -149,6 +149,5 @@ EMAIL_FROM = '17319391620@163.com'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')

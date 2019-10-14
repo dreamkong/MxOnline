@@ -1,1 +1,1 @@
-default_app_config = 'operations.apps.OperationsConfig'
+default_app_config = 'apps.operations.apps.OperationsConfig'
