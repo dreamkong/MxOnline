@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from datetime import datetime
 
 from django.db import models
@@ -20,8 +19,8 @@ class BaseModel(models.Model):
 
 class UserProfile(AbstractUser):
     nick_name = models.CharField(max_length=50, verbose_name='昵称', default='')
-    birthday = models.CharField(max_length=20, verbose_name='生日', null=True, blank=True)
-    gender = models.CharField(max_length=6, verbose_name='性别', choices=GENDER_CHOICES, default='')
+    birthday = models.DateField(max_length=20, verbose_name='生日', null=True, blank=True)
+    gender = models.CharField(max_length=6, verbose_name='性别', choices=GENDER_CHOICES)
     address = models.CharField(max_length=100, verbose_name='地址', default='')
     mobile = models.CharField(max_length=11, unique=True, verbose_name='手机号码', null=True, blank=True)
     image = models.ImageField(verbose_name='头像', upload_to='image/%Y/%m', default='image/default.png', max_length=100)

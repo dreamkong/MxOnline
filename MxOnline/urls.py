@@ -21,13 +21,14 @@ from django.views.generic import TemplateView
 from django.views.static import serve
 
 # import xadmin
+import xadmin
 from MxOnline.settings import MEDIA_ROOT
 
 # from users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetView, ModifyPwdView, LogoutView, IndexView
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    # url(r'^xadmin/', xadmin.site.urls),
+    # url('admin/', admin.site.urls),
+    url('xadmin/', xadmin.site.urls),
     # url('^$', IndexView.as_view(), name='index'),
     # url('^login/$', LoginView.as_view(), name='login'),
     # url('^logout/$', LogoutView.as_view(), name='logout'),

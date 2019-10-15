@@ -15,8 +15,7 @@ import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -29,9 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-AUTHENTICATION_BACKENDS = (
-    'users.views.CustomBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'users.views.CustomBackend',
+# )
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,11 +43,11 @@ INSTALLED_APPS = [
     'apps.courses.apps.CoursesConfig',
     'apps.organizations.apps.OrganizationsConfig',
     'apps.operations.apps.OperationsConfig',
-    #     'xadmin',
-    #     'crispy_forms',
+    'xadmin',
+    'crispy_forms',
     #     'captcha',
     #     'pure_pagination',
-    #     'DjangoUeditor'
+    'DjangoUeditor'
 ]
 
 AUTH_USER_MODEL = 'users.UserProfile'
@@ -59,7 +58,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -78,7 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.media',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -143,7 +141,7 @@ STATICFILES_DIRS = [
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = '25'
 EMAIL_HOST_USER = '17319391620@163.com'
-EMAIL_HOST_PASSWORD = 'jlck5212'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_FROM = '17319391620@163.com'
 

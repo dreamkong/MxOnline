@@ -1,6 +1,6 @@
 # _*_ coding:utf-8 _*_
 import xadmin
-from organization.models import CourseOrg
+from apps.organizations.models import CourseOrg
 from .models import Course, Lesson, Video, CourseResource, BannerCourse
 
 
