@@ -23,7 +23,7 @@ class UserAsk(BaseModel):
         verbose_name = '用户咨询'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -36,7 +36,7 @@ class CourseComments(BaseModel):
         verbose_name = '课程评论'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.comments
 
 
@@ -49,7 +49,7 @@ class UserFavorite(BaseModel):
         verbose_name = '用户收藏'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.nick_name
 
 
@@ -62,7 +62,7 @@ class UserMessage(BaseModel):
         verbose_name = '用户消息'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.nick_name
 
 
@@ -74,5 +74,5 @@ class UserCourse(BaseModel):
         verbose_name = '用户课程'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.nick_name

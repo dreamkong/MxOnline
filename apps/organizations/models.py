@@ -19,7 +19,7 @@ class CityDict(BaseModel):
         verbose_name = '机构城市'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -41,7 +41,7 @@ class CourseOrg(BaseModel):
         verbose_name = '课程机构'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_teacher_nums(self):
@@ -64,5 +64,5 @@ class Teacher(BaseModel):
         verbose_name = '机构教师'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

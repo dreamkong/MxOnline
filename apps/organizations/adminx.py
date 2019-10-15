@@ -8,6 +8,7 @@ class CityDictAdmin(object):
     list_display = ['name', 'desc', 'add_time']
     search_fields = ['name', 'desc']
     list_filter = ['name', 'desc', 'add_time']
+    list_editable = ['name', 'desc']
 
 
 class CourseOrgAdmin(object):

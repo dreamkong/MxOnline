@@ -4,6 +4,17 @@ from apps.organizations.models import CourseOrg
 from .models import Course, Lesson, Video, CourseResource, BannerCourse
 
 
+class BaseSetting(object):
+    enable_themes = True
+    use_bootswatch = True
+
+
+class GlobalSettings(object):
+    site_title = '慕学后台管理系统'
+    site_footer = '慕学在线网'
+    menu_style = 'accordion'
+
+
 class LessonInline(object):
     model = Lesson
     extra = 0
@@ -15,10 +26,11 @@ class CourseResourceInline(object):
 
 
 class CourseAdmin(object):
-    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'click_nums',
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'click_nums', 'teacher',
                     'get_zj_nums', 'go_to']
     search_fields = ['name', 'desc', 'detail', 'degree', 'students', 'fav_nums', 'image', 'click_nums']
-    list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image', 'click_nums',
+    list_filter = ['name', 'desc', 'teacher__name', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image',
+                   'click_nums',
                    'add_time']
     ordering = ['-click_nums']
     readonly_fields = ['click_nums', 'fav_nums']
@@ -83,3 +95,6 @@ xadmin.site.register(BannerCourse, BannerCourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)
+
+xadmin.site.register(xadmin.views.BaseAdminView, BaseSetting)
+xadmin.site.register(xadmin.views.CommAdminView, GlobalSettings)

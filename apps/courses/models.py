@@ -1,5 +1,6 @@
 from django.db import models
 
+from DjangoUeditor.models import UEditorField
 from apps.users.models import BaseModel
 from apps.organizations.models import Teacher
 from apps.organizations.models import CourseOrg
@@ -28,15 +29,15 @@ class Course(BaseModel):
     you_need_know = models.CharField(max_length=300, verbose_name='课程须知', default='')
     teacher_tell = models.CharField(max_length=300, verbose_name='老师告诉你', default='')
 
-    # detail = UEditorField('课程详情', width=600, height=300, imagePath="course/ueditor/",
-    #                       filePath="course/ueditor/", default='')
+    detail = UEditorField('课程详情', width=600, height=300, imagePath="course/ueditor/",
+                          filePath="course/ueditor/", default='')
     image = models.ImageField(upload_to='courses/%Y/%m', max_length=120, verbose_name='封面图')
 
     class Meta:
         verbose_name = '课程信息'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_zj_nums(self):
@@ -74,7 +75,7 @@ class Lesson(BaseModel):
         verbose_name = '课程章节'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_lesson_video(self):
@@ -92,7 +93,7 @@ class Video(BaseModel):
         verbose_name = '章节视频'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -105,5 +106,5 @@ class CourseResource(BaseModel):
         verbose_name = '课程资源'
         verbose_name_plural = verbose_name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
