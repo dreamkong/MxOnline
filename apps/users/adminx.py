@@ -1,8 +1,9 @@
 import xadmin
+from apps.operations.models import Banner
 from xadmin import views
 from xadmin.layout import Fieldset, Main, Side, Row, FormHelper
 from xadmin.plugins.auth import UserAdmin
-from .models import EmailVerifyRecord, Banner, UserProfile
+from .models import EmailVerifyRecord, UserProfile
 
 
 class UserProfileAdmin(UserAdmin):

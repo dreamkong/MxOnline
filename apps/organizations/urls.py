@@ -1,8 +1,8 @@
 # _*_ coding:utf-8 _*_
 from django.conf.urls import url
 
-from organization.views import OrgListView, AddUserAskView, OrgHomeView, OrgCourseView, OrgDescView, OrgTeacherView, \
-    AddFavView,TeacherListView,TeacherDetailView
+from apps.organizations.views import AddUserAskView, OrgHomeView, OrgCourseView, OrgDescView, OrgTeacherView, \
+    AddFavView, TeacherDetailView, TeacherListView, OrgListView
 
 urlpatterns = [
 

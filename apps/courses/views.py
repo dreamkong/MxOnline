@@ -2,13 +2,12 @@
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
-# Create your views here.
+# from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View
 
-from courses.models import Course, CourseResource, Video
-from operation.models import UserFavorite, CourseComments, UserCourse
-from utils.mixin_utils import LoginRequiredMixin
+from apps.courses.models import Course, CourseResource, Video
+from apps.operations.models import UserFavorite, CourseComments, UserCourse
+from apps.utils.mixin_utils import LoginRequiredMixin
 
 
 class CourseListView(View):

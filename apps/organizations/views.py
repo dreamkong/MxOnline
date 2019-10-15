@@ -1,16 +1,14 @@
-# _*_ encoding:utf-8 _*_
 from django.db.models import Q
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Create your views here.
 from django.views.generic import View
 
-from courses.models import Course
-from operation.models import UserFavorite
-from organization.forms import UserAskForm
-from organization.models import CourseOrg, CityDict, Teacher
+from apps.courses.models import Course
+from apps.operations.models import UserFavorite
+from apps.organizations.forms import UserAskForm
+from apps.organizations.models import CourseOrg, CityDict, Teacher
 
 
 class OrgListView(View):

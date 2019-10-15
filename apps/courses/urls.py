@@ -1,8 +1,8 @@
 # _*_ coding:utf-8 _*_
 from django.conf.urls import url, include
 
-from courses.views import CourseListView,CourseDetailView,AddFavView,CourseInfoView,\
-    CourseCommentView,AddCommentView,VideoPlayView
+from apps.courses.views import CourseDetailView, AddFavView, CourseInfoView, \
+    CourseCommentView, AddCommentView, VideoPlayView, CourseListView
 
 urlpatterns = [
 

@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 # AUTHENTICATION_BACKENDS = (
-#     'users.views.CustomBackend',
+#     'apps.users.views.CustomAuth',
 # )
 
 INSTALLED_APPS = [

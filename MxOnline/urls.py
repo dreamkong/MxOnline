@@ -17,6 +17,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve
 
@@ -24,36 +25,48 @@ from django.views.static import serve
 import xadmin
 from MxOnline.settings import MEDIA_ROOT
 
-# from users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetView, ModifyPwdView, LogoutView, IndexView
+from apps.users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetView, ModifyPwdView, LogoutView, \
+    IndexView
 
 urlpatterns = [
     # url('admin/', admin.site.urls),
-    url('xadmin/', xadmin.site.urls),
-    # url('^$', IndexView.as_view(), name='index'),
-    # url('^login/$', LoginView.as_view(), name='login'),
-    # url('^logout/$', LogoutView.as_view(), name='logout'),
-    # url('^register/$', RegisterView.as_view(), name='register'),
-    # url(r'^captcha/', include('captcha.urls')),
-    # url(r'^active/(?P<active_code>.*)/$', ActiveView.as_view(), name='user_active'),
-    # url('^forget/$', ForgetView.as_view(), name='forget_pwd'),
-    # url(r'^reset/(?P<reset_code>.*)/$', ResetView.as_view(), name='reset_pwd'),
-    # url(r'^modify_pwd/$', ModifyPwdView.as_view(), name='modify_pwd'),
-    #
-    # url(r'^org/', include('organizations.urls', namespace='org')),
-    # url(r'^course/', include('courses.urls', namespace='course')),
-    # # url(r'^teacher/', include('organizations.urls',namespace='teacher')),
-    # url(r'^users/', include('users.urls', namespace='users')),
-    #
-    # # 配置上传文件的访问处理函数
-    # url(r'^media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT}),
-    #
-    # # url(r'^static/(?P<path>.*)', serve, {'document_root': STATIC_ROOT}),
-    #
-    # # 富文本相关
-    # url(r'ueditor/',include('DjangoUeditor.urls'))
+    path('xadmin/', xadmin.site.urls),
+    path('', IndexView.as_view(), name='index'),
+    path('^login/$', LoginView.as_view(), name='login'),
+    path('^logout/$', LogoutView.as_view(), name='logout'),
+    path('^register/$', RegisterView.as_view(), name='register'),
+    # path(r'^captcha/', include('captcha.urls')),
+    path(r'^active/(?P<active_code>.*)/$', ActiveView.as_view(), name='user_active'),
+    path('^forget/$', ForgetView.as_view(), name='forget_pwd'),
+    path(r'^reset/(?P<reset_code>.*)/$', ResetView.as_view(), name='reset_pwd'),
+    path(r'^modify_pwd/$', ModifyPwdView.as_view(), name='modify_pwd'),
+
+    url(r'^org/', include(('apps.organizations.urls', 'org'), namespace='org')),
+    url(r'^course/', include(('apps.courses.urls', 'course'), namespace='course')),
+    url(r'^organization/', include(('apps.organizations.urls', 'organization'), namespace='organization')),
+    url(r'^users/', include(('apps.users.urls', 'users'), namespace='users')),
+
+    #配置上传文件的访问url
+    url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT}),
+    # url(r'^static/(?P<path>.*)$', serve, {"document_root":STATIC_ROOT}),
+
+    #机构相关页面
+    url(r'^org/', include(('apps.organizations.urls', "organizations"), namespace="org")),
+
+    #机构相关页面
+    url(r'^course/', include(('apps.courses.urls', "courses"), namespace="course")),
+
+    #用户相关操作
+    url(r'^op/', include(('apps.operations.urls', "operations"), namespace="op")),
+
+    #个人中心
+    url(r'^users/', include(('apps.users.urls', "users"), namespace="users")),
+
+    #配置富文本相关的url
+    url(r'^ueditor/',include('DjangoUeditor.urls' )),
 
 ]
 
 # 全局404配置
-# handler404 = 'users.views.page_not_found'
-# handler500 = 'users.views.page_error'
+# handler404 = 'apps.users.views.page_not_found'
+# handler500 = 'apps.users.views.page_error'

@@ -35,7 +35,6 @@ class UserSettingView(BaseAdminView):
 
 
 class LoginView(BaseAdminView):
-
     title = _("Please Login")
     login_form = None
     login_template = None
@@ -72,7 +71,6 @@ class LoginView(BaseAdminView):
 
 
 class LogoutView(BaseAdminView):
-
     logout_template = None
     need_site_permission = False
 
