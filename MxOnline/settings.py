@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     'apps.operations.apps.OperationsConfig',
     'xadmin',
     'crispy_forms',
-    #     'captcha',
-    #     'pure_pagination',
+    'captcha',
+    'pure_pagination',
     'DjangoUeditor'
 ]
 

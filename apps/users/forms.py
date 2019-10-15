@@ -1,25 +1,24 @@
-# _*_ coding:utf-8 _*_
 from django import forms
 
-# from captcha.fields import CaptchaField
+from captcha.fields import CaptchaField
 
 from apps.users.models import UserProfile
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(required=True)
-    password = forms.CharField(required=True, min_length=6)
+    username = forms.CharField(required=True, error_messages={'required': '请输入用户名'})
+    password = forms.CharField(required=True, min_length=6, error_messages={'required': '请输入密码'})
 
 
 class RegisterForm(forms.Form):
     email = forms.EmailField(required=True)
     password = forms.CharField(required=True, min_length=6)
-    # captcha = CaptchaField(error_messages={'invalid': u'验证码错误!'})
+    captcha = CaptchaField(error_messages={'invalid': '验证码错误!'})
 
 
 class ForgetForm(forms.Form):
     email = forms.EmailField(required=True)
-    # captcha = CaptchaField(error_messages={'invalid': u'验证码错误!'})
+    captcha = CaptchaField(error_messages={'invalid': '验证码错误!'})
 
 
 class ModifyPwdForm(forms.Form):

@@ -1,8 +1,7 @@
-# _*_ encoding:utf-8 _*_
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
-# from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View
 
 from apps.courses.models import Course, CourseResource, Video
@@ -57,11 +56,11 @@ class CourseDetailView(View):
 
         has_fav_course = False
         has_fav_org = False
-        if request.user.is_authenticated():
-            if UserFavorite.objects.filter(user=request.user, fav_id=course.id, fav_type=1):
-                has_fav_course = True
-            if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
-                has_fav_org = True
+        # if request.user.is_authenticated():
+        #     if UserFavorite.objects.filter(user=request.user, fav_id=course.id, fav_type=1):
+        #         has_fav_course = True
+        #     if UserFavorite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
+        #         has_fav_org = True
 
         tag = course.tag
         if tag:

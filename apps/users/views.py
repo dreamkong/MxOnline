@@ -1,4 +1,3 @@
-# _*_ encoding:utf-8 _*_
 import json
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
@@ -15,7 +14,7 @@ from apps.courses.models import Course
 from apps.operations.models import UserCourse, UserFavorite, UserMessage, Banner
 from apps.organizations.models import CourseOrg, Teacher
 from apps.users.forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadImageForm, UserInfoForm
-from apps.users.models import UserProfile, EmailVerifyRecord
+from apps.users.models import  EmailVerifyRecord
 from apps.utils.email_send import send_register_email
 from apps.utils.mixin_utils import LoginRequiredMixin
 from apps.users.models import UserProfile
@@ -113,24 +112,24 @@ class LogoutView(View):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, 'login.html', {})
+        return render(request, 'login1.html', {})
 
     def post(self, request):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
-            user_name = request.POST.get('username', '')
-            pass_word = request.POST.get('password', '')
-            user = authenticate(username=user_name, password=pass_word)
+            user_name = login_form.cleaned_data.get('username')
+            password = login_form.cleaned_data.get('password')
+            user = authenticate(username=user_name, password=password)
             if user is not None:
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('index'))
                 else:
-                    return render(request, 'login.html', {'msg': '用户未激活!'})
+                    return render(request, 'login1.html', {'msg': '用户未激活!', 'login_form': login_form})
             else:
-                return render(request, 'login.html', {'msg': '用户名或密码错误!'})
+                return render(request, 'login1.html', {'msg': '用户名或密码错误!', 'login_form': login_form})
         else:
-            return render(request, 'login.html', {'login_form': login_form})
+            return render(request, 'login1.html', {'login_form': login_form})
 
 
 class ForgetView(View):
