@@ -20,13 +20,13 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve
+from django.views.decorators.csrf import csrf_exempt
 
-# import xadmin
 import xadmin
 from MxOnline.settings import MEDIA_ROOT
 
 from apps.users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetView, ModifyPwdView, LogoutView, \
-    IndexView
+    IndexView, SendSmsView
 
 urlpatterns = [
     # url('admin/', admin.site.urls),
@@ -35,35 +35,36 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
-    path(r'^captcha/', include('captcha.urls')),
-    path(r'^active/(?P<active_code>.*)/$', ActiveView.as_view(), name='user_active'),
-    path('^forget/$', ForgetView.as_view(), name='forget_pwd'),
-    path(r'^reset/(?P<reset_code>.*)/$', ResetView.as_view(), name='reset_pwd'),
-    path(r'^modify_pwd/$', ModifyPwdView.as_view(), name='modify_pwd'),
+    url(r'^captcha/', include('captcha.urls')),
+    url(r'^send_sms/', csrf_exempt(SendSmsView.as_view()), name='send_sms'),
+    url(r'^active/(?P<active_code>.*)/$', ActiveView.as_view(), name='user_active'),
+    url('^forget/$', ForgetView.as_view(), name='forget_pwd'),
+    url(r'^reset/(?P<reset_code>.*)/$', ResetView.as_view(), name='reset_pwd'),
+    url(r'^modify_pwd/$', ModifyPwdView.as_view(), name='modify_pwd'),
 
     url(r'^org/', include(('apps.organizations.urls', 'org'), namespace='org')),
     url(r'^course/', include(('apps.courses.urls', 'course'), namespace='course')),
     url(r'^organization/', include(('apps.organizations.urls', 'organization'), namespace='organization')),
     url(r'^users/', include(('apps.users.urls', 'users'), namespace='users')),
 
-    #配置上传文件的访问url
-    url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT}),
+    # 配置上传文件的访问url
+    url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
     # url(r'^static/(?P<path>.*)$', serve, {"document_root":STATIC_ROOT}),
 
-    #机构相关页面
+    # 机构相关页面
     url(r'^org/', include(('apps.organizations.urls', "organizations"), namespace="org")),
 
-    #机构相关页面
+    # 机构相关页面
     url(r'^course/', include(('apps.courses.urls', "courses"), namespace="course")),
 
-    #用户相关操作
+    # 用户相关操作
     url(r'^op/', include(('apps.operations.urls', "operations"), namespace="op")),
 
-    #个人中心
+    # 个人中心
     url(r'^users/', include(('apps.users.urls', "users"), namespace="users")),
 
-    #配置富文本相关的url
-    url(r'^ueditor/',include('DjangoUeditor.urls' )),
+    # 配置富文本相关的url
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
 
 ]
 

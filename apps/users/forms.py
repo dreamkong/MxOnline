@@ -10,6 +10,11 @@ class LoginForm(forms.Form):
     password = forms.CharField(required=True, min_length=6, error_messages={'required': '请输入密码'})
 
 
+class DynamicLoginForm(forms.Form):
+    mobile = forms.CharField(required=True, max_length=11, min_length=11, error_messages={'required': '请输入手机号'})
+    captcha = CaptchaField()
+
+
 class RegisterForm(forms.Form):
     email = forms.EmailField(required=True)
     password = forms.CharField(required=True, min_length=6)

@@ -1,33 +1,37 @@
 import json
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib.auth.hashers import make_password
 
+from MxOnline.settings import yp_apikey
 from apps.courses.models import Course
 from apps.operations.models import UserCourse, UserFavorite, UserMessage, Banner
 from apps.organizations.models import CourseOrg, Teacher
-from apps.users.forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadImageForm, UserInfoForm
-from apps.users.models import  EmailVerifyRecord
+from apps.users.forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadImageForm, UserInfoForm, \
+    DynamicLoginForm
+from apps.users.models import EmailVerifyRecord
 from apps.utils.email_send import send_register_email
+from apps.utils.message_send import send_message_code
 from apps.utils.mixin_utils import LoginRequiredMixin
 from apps.users.models import UserProfile
+from apps.utils import random_str
 
 
-# class CustomAuth(ModelBackend):
-#     def authenticate(self, username=None, password=None, **kwargs):
-#         try:
-#             user = UserProfile.objects.get(Q(username=username) | Q(email=username))
-#             if user.check_password(password):
-#                 return user
-#         except Exception as e:
-#             return None
+class CustomAuth(ModelBackend):
+    def authenticate(self, username=None, password=None, **kwargs):
+        try:
+            user = UserProfile.objects.get(Q(username=username) | Q(email=username))
+            if user.check_password(password):
+                return user
+        except Exception as e:
+            return None
 
 
 class ResetView(View):
@@ -112,7 +116,11 @@ class LogoutView(View):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, 'login1.html', {})
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('index'))
+
+        dynamic_login_form = DynamicLoginForm()
+        return render(request, 'login.html', {'dynamic_login_form': dynamic_login_form})
 
     def post(self, request):
         login_form = LoginForm(request.POST)
@@ -125,11 +133,33 @@ class LoginView(View):
                     login(request, user)
                     return HttpResponseRedirect(reverse('index'))
                 else:
-                    return render(request, 'login1.html', {'msg': '用户未激活!', 'login_form': login_form})
+                    return render(request, 'login.html', {'msg': '用户未激活!', 'login_form': login_form})
             else:
-                return render(request, 'login1.html', {'msg': '用户名或密码错误!', 'login_form': login_form})
+                return render(request, 'login.html', {'msg': '用户名或密码错误!', 'login_form': login_form})
         else:
-            return render(request, 'login1.html', {'login_form': login_form})
+            return render(request, 'login.html', {'login_form': login_form})
+
+
+class SendSmsView(View):
+    def post(self, request):
+        send_sms_form = DynamicLoginForm(request.POST)
+        res_dict = {}
+        if send_sms_form.is_valid():
+            mobile = send_sms_form.cleaned_data.get('mobile')
+            # 随机生成数字验证码
+            code = random_str.generate_random(4, 0)
+            response = send_message_code(yp_apikey, code, mobile)
+            code = response.get('code')
+            msg = response.get('msg')
+            if code == 0:
+                res_dict['status'] = 'success'
+            else:
+                res_dict['msg'] = msg
+            return JsonResponse(response)
+        else:
+            for key, value in send_sms_form.items():
+                res_dict[key] = value[0]
+            return JsonResponse(res_dict)
 
 
 class ForgetView(View):
@@ -145,7 +175,6 @@ class ForgetView(View):
             return render(request, 'send_success.html')
         else:
             return render(request, 'forgetpwd.html', {'forget_form': forget_form})
-
 
 
 # def user_login(request):
