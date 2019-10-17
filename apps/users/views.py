@@ -1,5 +1,6 @@
 import json
 
+import redis
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -145,21 +146,24 @@ class SendSmsView(View):
         send_sms_form = DynamicLoginForm(request.POST)
         res_dict = {}
         if send_sms_form.is_valid():
+            print('验证成功')
             mobile = send_sms_form.cleaned_data.get('mobile')
             # 随机生成数字验证码
             code = random_str.generate_random(4, 0)
             response = send_message_code(yp_apikey, code, mobile)
-            code = response.get('code')
-            msg = response.get('msg')
-            if code == 0:
+            if response.get('code') == 0:
                 res_dict['status'] = 'success'
+                r = redis.Redis(host='localhost', port=6379, db=0, charset='utf8', decode_responses=True)
+                r.set(str(mobile), code)
+                # 设置验证码5分钟过期
+                r.expire(str(mobile), 60 * 5)
             else:
-                res_dict['msg'] = msg
-            return JsonResponse(response)
+                res_dict['msg'] = response.get('msg')
         else:
-            for key, value in send_sms_form.items():
+            print('验证失败')
+            for key, value in send_sms_form.errors.items():
                 res_dict[key] = value[0]
-            return JsonResponse(res_dict)
+        return JsonResponse(res_dict)
 
 
 class ForgetView(View):

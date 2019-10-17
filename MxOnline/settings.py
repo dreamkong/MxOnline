@@ -150,3 +150,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 云片网相关配置
 yp_apikey = "d6c4ddbf50ab36611d2f52041a0b949e"
+
+# REDIS相关配置
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
