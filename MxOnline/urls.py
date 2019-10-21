@@ -26,13 +26,14 @@ import xadmin
 from MxOnline.settings import MEDIA_ROOT
 
 from apps.users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetView, ModifyPwdView, LogoutView, \
-    IndexView, SendSmsView
+    IndexView, SendSmsView, DynamicLoginView
 
 urlpatterns = [
     # url('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('', IndexView.as_view(), name='index'),
     path('login/', LoginView.as_view(), name='login'),
+    path('d_login/', DynamicLoginView.as_view(), name='d_login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
     url(r'^captcha/', include('captcha.urls')),

@@ -15,8 +15,8 @@ from MxOnline.settings import yp_apikey
 from apps.courses.models import Course
 from apps.operations.models import UserCourse, UserFavorite, UserMessage, Banner
 from apps.organizations.models import CourseOrg, Teacher
-from apps.users.forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadImageForm, UserInfoForm, \
-    DynamicLoginForm
+from apps.users.forms import LoginForm, ForgetForm, ModifyPwdForm, UploadImageForm, UserInfoForm, \
+    DynamicLoginForm, DynamicLoginPostForm, RegisterPostForm, RegisterGetForm
 from apps.users.models import EmailVerifyRecord
 from apps.utils.email_send import send_register_email
 from apps.utils.message_send import send_message_code
@@ -80,33 +80,36 @@ class ActiveView(View):
 
 class RegisterView(View):
     def get(self, request):
-        register_form = RegisterForm()
-        return render(request, 'register.html', {'register_form': register_form})
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('index'))
+
+        register_get_form = RegisterGetForm()
+        return render(request, 'register.html', {'register_get_form': register_get_form})
 
     def post(self, request):
-        register_form = RegisterForm(request.POST)
-        if register_form.is_valid():
-            user_name = request.POST.get('email', '')
-            if UserProfile.objects.filter(email=user_name):
-                return render(request, 'register.html', {'register_form': register_form, 'msg': '用户已经存在!'})
-            pass_word = request.POST.get('password', '')
-            user_profile = UserProfile()
-            user_profile.username = user_name
-            user_profile.email = user_name
-            user_profile.is_active = False
-            user_profile.password = make_password(pass_word)
-            user_profile.save()
+        register_post_form = RegisterPostForm(request.POST)
+        if register_post_form.is_valid():
+            user_name = request.POST.get('mobile', '')
+            password = request.POST.get('password', '')
+            user = UserProfile()
+            user.username = user_name
+            user.mobile = user_name
+            user.set_password(password)
+            user.save()
 
             # 写入欢迎注册消息
             user_message = UserMessage()
-            user_message.user = user_profile.id
+            user_message.user = user
             user_message.message = '欢迎注册！！！！！'
             user_message.save()
 
-            send_register_email(user_name, 'register')
-            return render(request, 'login.html')
+            # send_register_email(user_name, 'register')
+            login(request, user)
+            return HttpResponseRedirect(reverse('index'))
         else:
-            return render(request, 'register.html', {'register_form': register_form})
+            register_get_form = RegisterGetForm()
+            return render(request, 'register.html',
+                          {'register_get_form': register_get_form, 'register_post_form': register_post_form})
 
 
 class LogoutView(View):
@@ -139,6 +142,29 @@ class LoginView(View):
                 return render(request, 'login.html', {'msg': '用户名或密码错误!', 'login_form': login_form})
         else:
             return render(request, 'login.html', {'login_form': login_form})
+
+
+class DynamicLoginView(View):
+    def post(self, request):
+        dynamic_login_flag = True
+        login_form = DynamicLoginPostForm(request.POST)
+        if login_form.is_valid():
+            mobile = login_form.cleaned_data.get('mobile')
+            existed_users = UserProfile.objects.filter(mobile=mobile)
+            if existed_users:
+                user = existed_users[0]
+            else:
+                # 未查到注册信息
+                user = UserProfile(username=mobile)
+                user.set_password(random_str.generate_random(10, 2))
+                user.mobile = mobile
+                user.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse('index'))
+        else:
+            d_form = DynamicLoginForm()
+            return render(request, 'login.html',
+                          {'login_form': login_form, 'dynamic_login_flag': dynamic_login_flag, 'd_form': d_form})
 
 
 class SendSmsView(View):
